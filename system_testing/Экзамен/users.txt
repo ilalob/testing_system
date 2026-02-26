@@ -1,0 +1,2 @@
+admin|admin123|System Administrator|System|000-000-000|1
+test|123|test|test|test|0

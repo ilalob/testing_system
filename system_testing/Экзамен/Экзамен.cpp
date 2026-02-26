@@ -10,8 +10,10 @@
 #include <functional>
 #include <cctype>
 #include <iomanip>
+#include <direct.h>
 
 using namespace std;
+
 
 
 string simpleEncrypt(const string& input)
@@ -84,7 +86,7 @@ private:
     vector<TestResult> results;
     User* currentUser;
 
-    string dataDir;
+    //char dataDir = "\\test_data\\";
 
     void loadData()
     {
@@ -100,7 +102,7 @@ private:
     }
     void loadUsers()
     {
-        ifstream file(dataDir + "users.txt");
+        ifstream file( "users.txt");
         if (!file.is_open()) return;
 
         users.clear();
@@ -126,7 +128,7 @@ private:
 
     void saveUsers()
     {
-        ofstream file(dataDir + "users.txt");
+        ofstream file( "users.txt");
         for (const auto& pair : users)
         {
             const User& u = pair.second;
@@ -142,7 +144,7 @@ private:
 
     void loadTests()
     {
-        ifstream file(dataDir + "tests.txt");
+        ifstream file( "tests.txt");
         if (!file.is_open()) return;
 
         tests.clear();
@@ -193,7 +195,7 @@ private:
 
     void saveTests()
     {
-        ofstream file(dataDir + "tests.txt");
+        ofstream file( "tests.txt");
         for (const Test& t : tests)
         {
             file << t.id << "|" << t.category << "|" << t.name << "|" << t.timeLimit << " " << t.questions.size() << "\n";
@@ -213,7 +215,7 @@ private:
 
     void loadResults()
     {
-        ifstream file(dataDir + "results.txt");
+        ifstream file( "results.txt");
         if (!file.is_open()) return;
 
         results.clear();
@@ -254,7 +256,7 @@ private:
 
     void saveResults()
     {
-        ofstream file(dataDir + "results.txt");
+        ofstream file( "results.txt");
         for (const TestResult& r : results)
         {
             file << r.userId << "|" << r.testId << "|" << r.testName << "|" << r.category << "|" << r.totalQuestions << " "
@@ -300,14 +302,16 @@ private:
     }
 
 public:
-    TestingSystem(const string& dir = "./") : dataDir(dir), currentUser(nullptr)
+    TestingSystem() : currentUser(nullptr)
     {
-        if (dataDir.back() != '/' && dataDir.back() != '\\')
+       /* if (dataDir.back() != '\\' || dataDir.back() != '/')
         {
-            dataDir += '/';
-        }
+            dataDir += '\\';
+        }*/
+    /*TestingSystem() :currentUser(nullptr)
+    {*/
         loadData();
-
+        //C:\Users\Student\P - 41\ООП\Экзамен\testing_system\system_testing\Экзамен
         if (users.empty())
         {
             User admin;
@@ -1257,8 +1261,8 @@ public:
 
             for (int j = 0; j < optCount; j++)
             {
-                cout << "Вариант " << (j + 1) << ": ";
                 cin.ignore();
+                cout << "Вариант " << (j + 1) << ": ";
                 string opt;
                 getline(cin, opt);
                 q.options.push_back(opt);
@@ -1392,7 +1396,7 @@ int main()
 {
     setlocale(LC_ALL, "Russian");
 
-    TestingSystem system("./test_data/");
+    TestingSystem system;
     system.run();
 
     return 0;
